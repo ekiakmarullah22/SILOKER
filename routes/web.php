@@ -13,9 +13,8 @@ use App\Http\Controllers\ProfilAdminController;
 use App\Http\Controllers\KategoriController;
 use App\Http\Controllers\InstgramAuthController;
 use App\Http\Controllers\StatusController;
+use App\Http\Controllers\VerificationController;
 use Illuminate\Support\Facades\Auth;
-use Illuminate\Support\Facades\Mail; // tambahkan ini
-use App\Mail\SendEmail; // tambahkan ini
 
 /*
 |--------------------------------------------------------------------------
@@ -44,7 +43,10 @@ Route::post('/logout', function () {
     return redirect('/');
 })->name('logout');
 
-Route::get('/dashboard', [DashboardController::class, 'index'])->middleware('auth')->name('dashboard');
+Route::get('/email/verify/need-verification', [VerificationController::class, 'notice'])->middleware('auth')->name('verification.notice');
+Route::get('/email/verify/{id}/{hash}', [VerificationController::class, 'verify'])->middleware(['auth', 'signed'])->name('verification.verify');
+
+Route::get('/dashboard', [DashboardController::class, 'index'])->middleware(['auth'])->name('dashboard');
 
 // Auth::routes(['verify' => true ]);
 
@@ -166,6 +168,12 @@ Route::get('cari', [HomeController::class, 'cari'])->name('home.cari');
 Route::get('/pekerjaan', [HomeController::class, 'pekerjaan'])->name('home.pekerjaan');
 
 Route::get('pekerjaan/detail/{slug}', [HomeController::class, 'show'])->name('home.show');
+
+Route::get('pekerjaan/detail/{slug}/lamar', [HomeController::class, 'lamar'])->name('home.lamar');
+
+Route::post('pekerjaan/kirim-lamaran', [HomeController::class, 'kirimLamaran'])->name('home.kirimLamaran');
+
+Route::get('pekerjaan/kirim-lamaran/status', [HomeController::class, 'statusLamaran'])->name('home.statusLamaran');
 
 Route::get('kategori', [HomeController::class, 'kategori'])->name('home.kategori');
 

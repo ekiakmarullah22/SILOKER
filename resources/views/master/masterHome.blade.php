@@ -29,6 +29,7 @@
 
     <!-- Template Stylesheet -->
     <link href="{{asset('jobentry-1.0.0/css/style.css')}}" rel="stylesheet">
+    @stack('css')
 </head>
 
 <body>

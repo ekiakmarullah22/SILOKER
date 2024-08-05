@@ -14,6 +14,9 @@
                         <span class="text-truncate me-3"><i class="far fa-clock text-primary me-2"></i>{{ $pekerjaan->kategori->nama_kategori }}</span>
                         <span class="text-truncate me-0"><i class="far fa-money-bill-alt text-primary me-2"></i>{{ $pekerjaan->besaran_gaji }}</span>
                     </div>
+                    <div class="text-end ps-4" style="margin-top: -2.5rem;">
+                        <a href="{{ route('home.lamar',$pekerjaan->slug) }}" class="btn btn-success">Lamar Pekerjaan</a>
+                    </div>
                 </div>
 
                 <div class="mb-5">

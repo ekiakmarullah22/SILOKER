@@ -113,7 +113,6 @@
             
                     </ul>
                     <div class="tab-content">
-                    @if ($dataLowonganPekerjaan)
 
                     <div id="tab-1" class="tab-pane fade show p-0 active">
                         @forelse ($dataLowonganPekerjaan as $dataLoker)
@@ -131,8 +130,8 @@
                                 </div>
                                 <div class="col-sm-12 col-md-4 d-flex flex-column align-items-start align-items-md-end justify-content-center">
                                     <div class="d-flex mb-3">
-                                        <a class="btn btn-light btn-square me-3" href="{{ route('home.show', $item->slug) }}"><i class="far fa-heart text-primary"></i></a>
-                                        <a class="btn btn-primary" href="{{ route('home.show', $item->slug) }}">Lamar Sekarang</a>
+                                        <a class="btn btn-light btn-square me-3" href="{{ route('home.show', $dataLoker->slug) }}"><i class="far fa-heart text-primary"></i></a>
+                                        <a class="btn btn-primary" href="{{ route('home.show', $dataLoker->slug) }}">Lamar Sekarang</a>
                                     </div>
                                     <small class="text-truncate"><i class="far fa-calendar-alt text-primary me-2"></i>Batas Lamaran: {{ $dataLoker->batas_lamaran_pekerjaan }}</small>
                                 </div>
@@ -145,14 +144,7 @@
                         
                         <a class="btn btn-primary py-3 px-5" href="{{ route('home.pekerjaan') }}">Temukan Lebih Banyak Pekerjaan</a>
                     </div>
-
-
                         
-                    @else
-
-                    <p>Data Lowongan Pekerjaan Tidak Ditemukan...</p>
-                        
-                    @endif
 
                     <div id="tab-2" class="tab-pane fade show p-0">
                         <div class="job-item p-4 mb-4">

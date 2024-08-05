@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use App\Models\Kategori;
 use App\Models\Lokasi;
 use App\Models\LowonganPekerjaan;
+use App\Models\Pelamar;
 use App\Models\TipePekerjaan;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
@@ -90,5 +91,43 @@ class HomeController extends Controller
         $pekerjaan = LowonganPekerjaan::with(['lokasi', 'kategori'])->where('kategori_id', $id)->latest()->paginate(5);
 
         return view('frontend.pekerjaanByCategory', compact('pekerjaan'));
+    }
+
+    public function lamar(string $slug) {
+        $pekerjaan = LowonganPekerjaan::with(['lokasi', 'kategori', 'pemberi_kerja'])->where('slug', $slug)->first();
+
+        return view('frontend.lamar', compact('pekerjaan'));
+    } 
+
+    public function kirimLamaran(Request $request) {
+        $request->validate([
+            'name' => 'required',
+            'email' => 'required|email',
+            'domisili' => 'required',
+            'umur' => 'required',
+            'cv' => 'required|mimes:pdf|max:2048'
+        ]);
+
+        //ambil nama file
+        $file = $request->file('cv');
+        $fileOriginalName = $file->getClientOriginalName();
+        $fileName = $fileOriginalName;
+        $request->cv->move(public_path('cv'), $fileName);
+        
+        // insert data
+        Pelamar::create([
+            'lowongan_pekerjaan_id' => $request->id_lamaran_pekerjaan,
+            'name' => $request->name,
+            'email' => $request->email,
+            'domisili' => $request->domisili,
+            'umur' => $request->umur,
+            'cv' => $fileName
+        ]);
+
+        return redirect()->route('home.statusLamaran');
+    }
+
+    public function statusLamaran() {
+        return view('frontend.statusLamaran');
     }
 }

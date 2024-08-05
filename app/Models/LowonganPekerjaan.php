@@ -31,5 +31,10 @@ class LowonganPekerjaan extends Model
         return $this->belongsTo(Kategori::class)->withDefault();
     }
 
+    public function pelamar(): BelongsTo
+    {
+        return $this->belongsTo(Pelamar::class)->withDefault();
+    }
+
     
 }
